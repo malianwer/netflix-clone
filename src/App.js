@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import MovieRow from "./components/MovieRow";
+import FeaturedMovie from "./components/FeaturedMovie";
+import Header from "./components/Header";
 
-function App() {
+const App = () => {
+  const [blackHeader, setblackHeader] = useState(false);
+
+  useEffect(() => {
+    const scrollListener = () => {
+      if (window.scrollY > 10) {
+        setblackHeader(true);
+      } else {
+        setblackHeader(false);
+      }
+    };
+
+    window.addEventListener("scroll", scrollListener);
+
+    return () => {
+      window.removeEventListener("scroll", scrollListener);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="page">
+      <Header black={blackHeader} />
+      <FeaturedMovie />
+      <section className="lists">
+        <MovieRow title={"Trending"}></MovieRow>
+        <MovieRow title={"Top Movies"}></MovieRow>
+        <MovieRow title={"Seasons"}> </MovieRow>
+      </section>
+      <footer>
+        Ready to watch? Enter your email to create or restart your membership.
+      </footer>
     </div>
   );
-}
-
+};
 export default App;
